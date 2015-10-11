@@ -1,0 +1,5 @@
+LIBRARY
+	EXPORTS
+		Debug
+		MT5LIStart
+		MT5LIStop

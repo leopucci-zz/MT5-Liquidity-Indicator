@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.23107.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MT5LiquidityIndicator", "MT5LiquidityIndicator\MT5LiquidityIndicator.vcxproj", "{FB50D48C-6F80-4F49-A8DA-DF0EB02E7872}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MT5LiquidityIndicator.Net", "MT5LiquidityIndicator.Net\MT5LiquidityIndicator.Net.csproj", "{2324D9F7-E96C-4AD6-B688-BB06FBC77EFF}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x64 = Debug|x64
+		Release|x64 = Release|x64
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{FB50D48C-6F80-4F49-A8DA-DF0EB02E7872}.Debug|x64.ActiveCfg = Debug|x64
+		{FB50D48C-6F80-4F49-A8DA-DF0EB02E7872}.Debug|x64.Build.0 = Debug|x64
+		{FB50D48C-6F80-4F49-A8DA-DF0EB02E7872}.Release|x64.ActiveCfg = Release|x64
+		{FB50D48C-6F80-4F49-A8DA-DF0EB02E7872}.Release|x64.Build.0 = Release|x64
+		{2324D9F7-E96C-4AD6-B688-BB06FBC77EFF}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{2324D9F7-E96C-4AD6-B688-BB06FBC77EFF}.Debug|x64.Build.0 = Debug|Any CPU
+		{2324D9F7-E96C-4AD6-B688-BB06FBC77EFF}.Release|x64.ActiveCfg = Release|Any CPU
+		{2324D9F7-E96C-4AD6-B688-BB06FBC77EFF}.Release|x64.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
