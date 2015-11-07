@@ -14,12 +14,20 @@ Level2Queue::Level2Queue()
 	{
 		throw runtime_error("Couldn't create a new semaphore");
 	}
+	m_event = CreateEvent(nullptr, FALSE, FALSE, nullptr);
+	if (nullptr == m_event)
+	{
+		throw runtime_error("Couldn't create a new event");
+	}
 }
 
 Level2Queue::~Level2Queue()
 {
 	CloseHandle(m_semaphore);
 	m_semaphore = nullptr;
+
+	CloseHandle(m_event);
+	m_event = nullptr;
 }
 
 void Level2Queue::Begin()
@@ -47,6 +55,12 @@ void Level2Queue::End()
 
 const uint8_t* Level2Queue::WaitFor(const uint32_t timeoutInMs)
 {
+	if (0 == timeoutInMs)
+	{
+		SetEvent(m_event);
+		return nullptr;
+	}
+
 	WaitForSingleObject(m_semaphore, timeoutInMs);
 	CCsLocker lock(m_synchronizer);
 	if (m_quotes.empty())
@@ -61,4 +75,9 @@ const uint8_t* Level2Queue::WaitFor(const uint32_t timeoutInMs)
 	m_quotes.pop_front();
 
 	return &m_outgoing.front();
+}
+
+void Level2Queue::Join()
+{
+	WaitForSingleObject(m_event, INFINITE);
 }

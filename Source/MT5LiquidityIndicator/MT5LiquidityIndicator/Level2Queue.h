@@ -22,12 +22,14 @@ public:
 
 public:
 	const uint8_t* WaitFor(const uint32_t timeoutInMs);
+	void Join();
 
 public:
 	CComAutoCriticalSection m_synchronizer;
 
 private:
 	HANDLE m_semaphore;
+	HANDLE m_event;
 	Level2 m_incomming;
 	std::vector<uint8_t> m_outgoing;
 	std::deque<Level2> m_quotes;

@@ -12,9 +12,7 @@ namespace MT5LiquidityIndicator.Net.Core
 		internal Quote(byte* ptr)
 		{
 			int bidsNumber = *(int*)(ptr);
-			Debug.WriteLine("bids number = {0}", bidsNumber);
 			int asksNumber = *(int*)(ptr + sizeof(int));
-			Debug.WriteLine("asks number = {0}", asksNumber);
 
 			this.Bids = new QuoteEntry[bidsNumber];
 			this.Asks = new QuoteEntry[asksNumber];

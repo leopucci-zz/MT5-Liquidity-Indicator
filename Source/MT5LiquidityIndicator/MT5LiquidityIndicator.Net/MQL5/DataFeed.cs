@@ -53,6 +53,8 @@ namespace MT5LiquidityIndicator.Net.MQL5
 					func(this, e);
 				}
 			}
+
+			m_func(m_handle, 0);
 		}
 
 		#region types

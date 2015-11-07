@@ -87,18 +87,13 @@ namespace MT5LiquidityIndicator.Net.View
 		}
 		private void Destroy()
 		{
-			Debug.WriteLine("Chart.Destroy() - 0");
 			DataFeed proxy = m_proxy;
 			m_proxy = null;
 			if (null != proxy)
 			{
-				Debug.WriteLine("Chart.Destroy() - 1");
 				proxy.Tick -= OnTick;
-				Debug.WriteLine("Chart.Destroy() - 2");
 				proxy.Dispose();
-				Debug.WriteLine("Chart.Destroy() - 3");
 			}
-			Debug.WriteLine("Chart.Destroy() - 4");
 		}
 		private void OnOptions(object sender, EventArgs e)
 		{

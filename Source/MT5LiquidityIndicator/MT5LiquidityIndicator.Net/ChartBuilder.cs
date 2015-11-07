@@ -20,8 +20,6 @@ namespace MT5LiquidityIndicator.Net
 				Debug.WriteLine(parameters.Symbol);
 				indicator.Construct(parameters);
 				indicator.Show();
-				Debug.WriteLine("indicator.Handle.ToInt64() = {0}", indicator.Handle.ToInt64());
-				Debug.WriteLine("indicator.Handle.ToInt32() = {0}", indicator.Handle.ToInt32());
 
 				return indicator.Handle.ToInt32();
 			}
