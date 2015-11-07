@@ -26,3 +26,12 @@
 *.exe
 *.out
 *.app
+/Source/MT5LiquidityIndicator/MT5LiquidityIndicator/Debug
+/Source/MT5LiquidityIndicator/Debug
+/Source/MT5LiquidityIndicator/.vs/MT5LiquidityIndicator/v14
+/Source/MT5LiquidityIndicator/MT5LiquidityIndicator/Release
+/Source/MT5LiquidityIndicator/MT5LiquidityIndicator.Net/obj
+/Source/MT5LiquidityIndicator/Release
+/Source/MT5LiquidityIndicator/ipch
+/Source/MT5LiquidityIndicator/MT5LiquidityIndicator.sdf
+/Source/MT5LiquidityIndicator/MT5LiquidityIndicator.opensdf

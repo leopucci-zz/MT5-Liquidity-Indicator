@@ -59,6 +59,7 @@
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>_DEBUG;_WINDOWS;_USRDLL;MT5LIQUIDITYINDICATOR_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -66,6 +67,10 @@
       <AdditionalDependencies>MSCorEE.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <ModuleDefinitionFile>MT5LiquidityIndicator.def</ModuleDefinitionFile>
     </Link>
+    <PostBuildEvent>
+      <Command>if not exist "$(SolutionDir)Build\" (md "$(SolutionDir)Build\")
+xcopy /Y "$(TargetPath)" "$(SolutionDir)Build\"</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -76,6 +81,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>NDEBUG;_WINDOWS;_USRDLL;MT5LIQUIDITYINDICATOR_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -85,6 +91,10 @@
       <AdditionalDependencies>MSCorEE.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <ModuleDefinitionFile>MT5LiquidityIndicator.def</ModuleDefinitionFile>
     </Link>
+    <PostBuildEvent>
+      <Command>if not exist "$(SolutionDir)Build\" (md "$(SolutionDir)Build\")
+xcopy /Y "$(TargetPath)" "$(SolutionDir)Build\"</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="Chart.h" />
