@@ -3,3 +3,8 @@ LIBRARY
 		Debug
 		MT5LIStart
 		MT5LIStop
+		Level2_Begin
+		Level2_End
+		Level2_AddBid
+		Level2_AddAsk
+		Level2_WaitFor

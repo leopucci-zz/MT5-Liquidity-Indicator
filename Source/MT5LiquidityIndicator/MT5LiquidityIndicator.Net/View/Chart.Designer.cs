@@ -46,6 +46,7 @@
 			saveAsCSVToolStripMenuItem.Name = "saveAsCSVToolStripMenuItem";
 			saveAsCSVToolStripMenuItem.Size = new System.Drawing.Size(227, 22);
 			saveAsCSVToolStripMenuItem.Text = "Save as CSV";
+			saveAsCSVToolStripMenuItem.Click += new System.EventHandler(this.OnSaveAsCSV);
 			// 
 			// m_viewOptionsToolStripMenuItem
 			// 
@@ -65,6 +66,7 @@
 			// 
 			this.m_timer.Enabled = true;
 			this.m_timer.Interval = 500;
+			this.m_timer.Tick += new System.EventHandler(this.OnTick);
 			// 
 			// m_contextMenu
 			// 
@@ -74,7 +76,7 @@
             this.toolStripSeparator2,
             saveAsCSVToolStripMenuItem});
 			this.m_contextMenu.Name = "m_contextMenu";
-			this.m_contextMenu.Size = new System.Drawing.Size(228, 98);
+			this.m_contextMenu.Size = new System.Drawing.Size(228, 76);
 			// 
 			// toolStripSeparator2
 			// 
@@ -85,11 +87,14 @@
 			// 
 			this.m_saveFileDialog.Filter = "CSV files|*.csv|All files|*.*";
 			// 
+			// m_spreads
+			// 
 			this.m_spreads.Cursor = System.Windows.Forms.Cursors.Hand;
 			this.m_spreads.Location = new System.Drawing.Point(19, 94);
 			this.m_spreads.Name = "m_spreads";
 			this.m_spreads.Size = new System.Drawing.Size(215, 121);
 			this.m_spreads.TabIndex = 1;
+			// 
 			// Chart
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);

@@ -90,6 +90,8 @@
     <ClInclude Include="Chart.h" />
     <ClInclude Include="DllMain.h" />
     <ClInclude Include="DotNetBridge.h" />
+    <ClInclude Include="Level2.h" />
+    <ClInclude Include="Level2Queue.h" />
     <ClInclude Include="MT5LiquidityIndicator.h" />
     <ClInclude Include="Parameters.h" />
     <ClInclude Include="stdafx.h" />
@@ -107,6 +109,8 @@
       </PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="DotNetBridge.cpp" />
+    <ClCompile Include="Level2.cpp" />
+    <ClCompile Include="Level2Queue.cpp" />
     <ClCompile Include="MT5LiquidityIndicator.cpp" />
     <ClCompile Include="Parameters.cpp" />
     <ClCompile Include="stdafx.cpp">

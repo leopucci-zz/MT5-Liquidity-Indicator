@@ -11,6 +11,7 @@ using MT5LiquidityIndicator.Net.Core;
 using MT5LiquidityIndicator.Net.Settings;
 using System.Drawing.Drawing2D;
 using System.IO;
+using MT5LiquidityIndicator.Net.MQL5;
 
 namespace MT5LiquidityIndicator.Net.View
 {
@@ -20,6 +21,8 @@ namespace MT5LiquidityIndicator.Net.View
 		public Chart()
 		{
 			InitializeComponent();
+			m_spreads.Visible = true;
+			m_spreads.Location = Point.Empty;
 			this.Text = string.Empty;
 		}
 		public void Construct(Parameters parameters)
@@ -34,6 +37,8 @@ namespace MT5LiquidityIndicator.Net.View
 			m_parameters.SetHeight(m_settings.Height);
 			m_spreads.Height = (int)(m_settings.Height - cTopOffset - cBottomOffset);
 			m_timer.Interval = m_settings.UpdateInterval;
+			m_proxy = new DataFeed(parameters.This, parameters.Func2);
+			m_proxy.Tick += OnTick;
 		}
 		#endregion
 		#region event handlers
@@ -54,6 +59,16 @@ namespace MT5LiquidityIndicator.Net.View
 				}
 			}
 		}
+		private void OnTick(object sender, TickEventArgs e)
+		{
+			m_realTimeQuotes.Add(e.Tick);
+		}
+		private void OnTick(object sender, EventArgs e)
+		{
+			m_realTimeQuotes.Refresh();
+			this.Invalidate();
+			m_spreads.Update(m_parameters, m_settings, m_realTimeQuotes);
+		}
 		protected override void OnPaint(PaintEventArgs e)
 		{
 			base.OnPaint(e);
@@ -61,7 +76,6 @@ namespace MT5LiquidityIndicator.Net.View
 		}
 		protected override void OnPaintBackground(PaintEventArgs e)
 		{
-			base.OnPaintBackground(e);
 		}
 		protected override void WndProc(ref Message m)
 		{
@@ -73,6 +87,18 @@ namespace MT5LiquidityIndicator.Net.View
 		}
 		private void Destroy()
 		{
+			Debug.WriteLine("Chart.Destroy() - 0");
+			DataFeed proxy = m_proxy;
+			m_proxy = null;
+			if (null != proxy)
+			{
+				Debug.WriteLine("Chart.Destroy() - 1");
+				proxy.Tick -= OnTick;
+				Debug.WriteLine("Chart.Destroy() - 2");
+				proxy.Dispose();
+				Debug.WriteLine("Chart.Destroy() - 3");
+			}
+			Debug.WriteLine("Chart.Destroy() - 4");
 		}
 		private void OnOptions(object sender, EventArgs e)
 		{
@@ -319,6 +345,7 @@ namespace MT5LiquidityIndicator.Net.View
 		#endregion
 		#region members
 		private bool m_disableMouseMove;
+		private DataFeed m_proxy;
 		private Parameters m_parameters;
 		private ChartSettings m_settings;
 		private readonly Quotes m_realTimeQuotes = new Quotes(60);

@@ -39,6 +39,12 @@
     <ClInclude Include="Stream.h">
       <Filter>Headers</Filter>
     </ClInclude>
+    <ClInclude Include="Level2.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Level2Queue.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -60,6 +66,12 @@
       <Filter>Sources</Filter>
     </ClCompile>
     <ClCompile Include="Stream.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="Level2.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="Level2Queue.cpp">
       <Filter>Sources</Filter>
     </ClCompile>
   </ItemGroup>

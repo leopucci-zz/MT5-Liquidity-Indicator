@@ -4,6 +4,8 @@
 
 #pragma once
 
+#include "Level2Queue.h"
+
 class CChart
 {
 public:
@@ -16,6 +18,7 @@ public:
 
 public:
 	LRESULT Handle(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
+	Level2Queue& GetLevel2Queue();
 
 private:
 	static void __stdcall SetHeight(void* ptr, int height);
@@ -40,6 +43,7 @@ private:
 	bool m_wasSent;
 	int m_width;
 	int m_height;
+	Level2Queue m_queue;
 	HWND m_indicator;
 	WNDPROC m_original;
 };

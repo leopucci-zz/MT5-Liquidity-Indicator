@@ -23,6 +23,7 @@ namespace MT5LiquidityIndicator.Net
 			this.PriceFormat = string.Format("F{0}", this.Digits);
 			this.This = new IntPtr(long.Parse(args[cThis]));
 			this.Func = new IntPtr(long.Parse(args[cFunc]));
+			this.Func2 = new IntPtr(long.Parse(args[cFunc2]));
 			if (IntPtr.Zero != this.Func)
 			{
 				m_setHeight = (SetHeightFunc)Marshal.GetDelegateForFunctionPointer(this.Func, typeof(SetHeightFunc));
@@ -68,7 +69,8 @@ namespace MT5LiquidityIndicator.Net
 		internal string PriceFormat { get; private set; }
 		internal IntPtr This { get; private set; }
 		internal IntPtr Func { get; private set; }
-		internal IntPtr Handle { get; private set; }
+		internal IntPtr Func2 { get; private set; }
+		//internal IntPtr Handle { get; private set; }
 		#endregion
 		#region constants
 		private const string cDllPath = "DllPath";
@@ -79,6 +81,7 @@ namespace MT5LiquidityIndicator.Net
 		private const string cPrecision = "Precision";
 		private const string cThis = "This";
 		private const string cFunc = "Func";
+		private const string cFunc2 = "Func2";
 		#endregion
 		#region types
 		private delegate void SetHeightFunc(IntPtr pThis, int height);

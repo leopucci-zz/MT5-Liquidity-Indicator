@@ -13,9 +13,12 @@
 #include <stdlib.h>
 #include <sstream>
 #include <string>
+#include <deque>
+#include <vector>
 #include <set>
 #include <map>
 #include <atlbase.h>
+#include <functional>
 
 
 

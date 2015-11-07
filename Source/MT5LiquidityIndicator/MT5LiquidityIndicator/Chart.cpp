@@ -11,9 +11,13 @@
 
 namespace
 {
-	const UINT cMessageCreate = RegisterWindowMessage(TEXT("{C940DF81-863D-4FFB-9504-681684775B47}"));
-	const UINT cMessage = RegisterWindowMessage(TEXT("{9118E7EC-6B89-40A2-9554-3FF7811DF7A4}"));
-	const UINT cMessage2 = RegisterWindowMessage(TEXT("{74B9AEB5-B877-4898-84A4-067F6854B810}"));
+	const UINT cServiceMessage = RegisterWindowMessage(TEXT("{C940DF81-863D-4FFB-9504-681684775B47}"));
+
+	const WPARAM cCreate = 0;
+	const WPARAM cUpdate = 1;
+	const WPARAM cUpdateHeight = 2;
+	const WPARAM cDestroy = 3;
+
 	string cTypeName = "MT5LiquidityIndicator.Net.ChartBuilder";
 	string cMethodName = "Run";
 	const int cDefaultChartHeight = 250;
@@ -21,30 +25,6 @@ namespace
 namespace
 {
 	map<HWND, CChart> gCharts;
-}
-
-void MT5LIStart(HWND handle, const wchar_t* pSymbol, int period, int digits, double lotSize)
-{
-	CStream() << "MT5LIStart(handle = 0x" << handle << ", pSymbol = " << pSymbol << ", period = " << period << ", digits = " << digits << ", lotSize = " << lotSize << ")" >> DebugLog;
-
-	if (0 == gCharts.count(handle))
-	{
-		string symbol = CW2A(pSymbol);
-		CChart& chart = gCharts[handle];
-		chart.Construct(handle, symbol, period, digits, lotSize);
-	}
-}
-
-void MT5LIStop(HWND handle)
-{
-	CStream()<<"MT5LIStop(handle = 0x"<<handle<<")">>DebugLog;
-	auto it = gCharts.find(handle);
-	if (gCharts.end() != it)
-	{
-		CChart& chart = it->second;
-		chart.Finalize(handle);
-		gCharts.erase(it);
-	}
 }
 
 LRESULT CALLBACK ChartProcHandler(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
@@ -77,14 +57,13 @@ void CChart::Construct(HWND hwnd, const string& symbol, int period, int digits, 
 	CStream() << "CChart::Construct() - 0 = " << GetCurrentThreadId() >> DebugLog;
 
 	m_original = reinterpret_cast<WNDPROC>(SetWindowLongPtr(hwnd, GWLP_WNDPROC, reinterpret_cast<LONG_PTR>(ChartProcHandler)));
-	SendMessage(hwnd, cMessageCreate, 0, 0);
+	SendMessage(hwnd, cServiceMessage, cCreate, 0);
 	CStream() << "CChart::Construct() - 1 = " << GetCurrentThreadId() >> DebugLog;
 }
 
 void CChart::DoConstruct()
 {
 	CStream() << "CChart::DoConstruct() - 0 = " << GetCurrentThreadId() >> DebugLog;
-
 
 	string argument = FormatParameters(this, m_symbol, m_period, m_digits,m_lotSize, reinterpret_cast<void*>(&CChart::SetHeight));
 	CStream() << argument >> DebugLog;
@@ -98,23 +77,29 @@ void CChart::DoConstruct()
 		SetParent(m_indicator, parent);
 		SetWindowLong(parent, GWL_STYLE, GetWindowLong(parent, GWL_STYLE) | WS_CLIPCHILDREN);
 		OnUpdate(m_hwnd);
-		PostMessage(m_hwnd, cMessage2, 0, 0);
+		PostMessage(m_hwnd, cServiceMessage, cUpdateHeight, 0);
 	}
 
 	CStream() << "CChart::DoConstruct() - 1 = " << GetCurrentThreadId() >> DebugLog;
-
 }
 
 void CChart::Finalize(HWND hwnd)
 {
+	CStream() << "CChart::Finalize - 0" >> DebugLog;
 	if (nullptr != m_indicator)
 	{
-		DestroyWindow(m_indicator);
+		CStream() << "CChart::Finalize - 1" >> DebugLog;
+		SendMessage(m_indicator, cServiceMessage, cDestroy, 0);
+		CStream() << "CChart::Finalize - 2" >> DebugLog;
 		m_indicator = nullptr;
 	}
+	CStream() << "CChart::Finalize - 3" >> DebugLog;
 	SetWindowLongPtr(hwnd, GWLP_WNDPROC, reinterpret_cast<LONG_PTR>(m_original));
+	CStream() << "CChart::Finalize - 4" >> DebugLog;
 	MoveWindow(hwnd, 0, 0, m_width, m_height, TRUE);
+	CStream() << "CChart::Finalize - 5" >> DebugLog;
 }
+
 LRESULT CChart::Handle(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
 	WNDPROC original = m_original;
@@ -129,28 +114,49 @@ LRESULT CChart::Handle(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 	{
 		OnSize(hwnd);
 	}
-	else if (cMessage == uMsg)
+	else if (cServiceMessage == uMsg)
 	{
-		OnUpdate(hwnd);
-	}
-	else if (cMessage2 == uMsg)
-	{
-		UpdateHeight();
-	}
-	else if (cMessageCreate == uMsg)
-	{
-		this->DoConstruct();
+		CStream() << "Service message: wParam = " << wParam >> DebugLog;
+		if (cCreate == wParam)
+		{
+			this->DoConstruct();
+		}
+		else if (cUpdate == wParam)
+		{
+			OnUpdate(hwnd);
+		}
+		else if (cUpdateHeight == wParam)
+		{
+			UpdateHeight();
+		}
+		else if (cDestroy == wParam)
+		{
+			CStream() << "Destroying window" >> DebugLog;
+			if (!DestroyWindow(hwnd))
+			{
+				CStream() << "Couldn't destroy window; GetLastError() = " << GetLastError() >> DebugLog;
+			}
+			CStream() << "Window has been destroyed" >> DebugLog;
+			
+		}
 	}
 	return original(hwnd, uMsg, wParam, lParam);
 }
+
+Level2Queue& CChart::GetLevel2Queue()
+{
+	return m_queue;
+}
+
 void CChart::OnSize(HWND hwnd)
 {
 	if (!m_isSpecial && !m_wasSent)
 	{
-		PostMessage(hwnd, cMessage, 0, 0);
+		PostMessage(hwnd, cServiceMessage, cUpdate, 0);
 		m_wasSent = true;
 	}
 }
+
 void CChart::OnUpdate(HWND hwnd)
 {
 	m_wasSent = false;
@@ -198,5 +204,65 @@ void CChart::UpdateHeight()
 			MoveWindow(parent, point.x, point.y, rect.right - rect.left + 1, rect.bottom - rect.top, TRUE);
 			MoveWindow(parent, point.x, point.y, rect.right - rect.left, rect.bottom - rect.top, TRUE);
 		}
+	}
+}
+
+extern "C"
+{
+	CChart* MT5LIStart(HWND handle, const wchar_t* pSymbol, int period, int digits, double lotSize)
+	{
+		CStream() << "MT5LIStart(handle = 0x" << handle << ", pSymbol = " << pSymbol << ", period = " << period << ", digits = " << digits << ", lotSize = " << lotSize << ")" >> DebugLog;
+
+		if (0 == gCharts.count(handle))
+		{
+			string symbol = CW2A(pSymbol);
+			CChart& chart = gCharts[handle];
+			chart.Construct(handle, symbol, period, digits, lotSize);
+			return &chart;
+		}
+		return nullptr;
+	}
+
+	void MT5LIStop(HWND handle)
+	{
+		CStream() << "MT5LIStop(handle = 0x" << handle << ")" >> DebugLog;
+		auto it = gCharts.find(handle);
+		if (gCharts.end() != it)
+		{
+			CChart& chart = it->second;
+			chart.Finalize(handle);
+			gCharts.erase(it);
+		}
+		CStream() << "MT5LIStop()" >> DebugLog;
+	}
+
+	void Level2_Begin(CChart* pChart)
+	{
+		Level2Queue& queue = pChart->GetLevel2Queue();
+		queue.Begin();
+	}
+
+	void Level2_End(CChart* pChart)
+	{
+		Level2Queue& queue = pChart->GetLevel2Queue();
+		queue.End();
+	}
+
+	void Level2_AddBid(CChart* pChart, double price, double size)
+	{
+		Level2Queue& queue = pChart->GetLevel2Queue();
+		queue.AddBid(price, size);
+	}
+
+	void Level2_AddAsk(CChart* pChart, double price, double size)
+	{
+		Level2Queue& queue = pChart->GetLevel2Queue();
+		queue.AddAsk(price, size);
+	}
+
+	const uint8_t* Level2_WaitFor(CChart* pChart, const uint32_t timeoutInMs)
+	{
+		Level2Queue& queue = pChart->GetLevel2Queue();
+		return queue.WaitFor(timeoutInMs);
 	}
 }
