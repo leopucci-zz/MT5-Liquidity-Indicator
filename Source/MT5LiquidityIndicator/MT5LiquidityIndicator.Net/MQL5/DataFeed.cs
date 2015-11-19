@@ -15,7 +15,10 @@ namespace MT5LiquidityIndicator.Net.MQL5
 		internal DataFeed(IntPtr handle, IntPtr func2)
 		{
 			m_handle = handle;
-			m_func = (WaitForLevel2)Marshal.GetDelegateForFunctionPointer(func2, typeof(WaitForLevel2));
+			if (IntPtr.Zero != func2)
+			{
+				m_func = (WaitForLevel2)Marshal.GetDelegateForFunctionPointer(func2, typeof(WaitForLevel2));
+			}
 			m_continue = true;
 			m_thread = new Thread(Loop);
 			m_thread.Start();
@@ -34,8 +37,22 @@ namespace MT5LiquidityIndicator.Net.MQL5
 
 		private void Loop()
 		{
+			if (null != m_func)
+			{
+				DoLoop();
+			}
+		}
+
+		private void DoLoop()
+		{
 			for (; m_continue;)
 			{
+				if (null == m_func)
+				{
+					Thread.Sleep(256);
+					continue;
+				}
+
 				byte* ptr = m_func(m_handle, 256);
 				if (null == ptr)
 				{

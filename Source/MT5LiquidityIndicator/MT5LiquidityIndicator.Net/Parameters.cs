@@ -9,9 +9,9 @@ using System.Runtime.InteropServices;
 
 namespace MT5LiquidityIndicator.Net
 {
-	internal class Parameters
+	public class Parameters
 	{
-		internal Parameters(string st)
+		public Parameters(string st)
 		{
 			Dictionary<string, string> args = ParseString(st);
 			this.Symbol = args[cSymbol];

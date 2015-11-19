@@ -15,7 +15,7 @@ using MT5LiquidityIndicator.Net.MQL5;
 
 namespace MT5LiquidityIndicator.Net.View
 {
-	internal partial class Chart : UserControl
+	public partial class Chart : UserControl
 	{
 		#region construction
 		public Chart()
@@ -71,8 +71,8 @@ namespace MT5LiquidityIndicator.Net.View
 		}
 		protected override void OnPaint(PaintEventArgs e)
 		{
-			base.OnPaint(e);
 			Draw(e.Graphics);
+			base.OnPaint(e);
 		}
 		protected override void OnPaintBackground(PaintEventArgs e)
 		{
@@ -198,6 +198,8 @@ namespace MT5LiquidityIndicator.Net.View
 					gEx.FillRectangle(m_settings.BackgroundColor, 0, 0, width, height);
 					gEx.SetRenderingMode(m_settings.Mode);
 					DoDraw(gEx);
+					Rectangle rect = new Rectangle(m_spreads.Location, m_spreads.Size);
+					g.ExcludeClip(rect);
 					g.DrawImage(image, 0, 0);
 				}
 			}

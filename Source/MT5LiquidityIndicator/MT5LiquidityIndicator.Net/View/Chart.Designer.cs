@@ -100,6 +100,7 @@
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ContextMenuStrip = this.m_contextMenu;
+			this.Controls.Add(this.m_spreads);
 			this.Name = "Chart";
 			this.Size = new System.Drawing.Size(672, 318);
 			this.Click += new System.EventHandler(this.OnClick);
