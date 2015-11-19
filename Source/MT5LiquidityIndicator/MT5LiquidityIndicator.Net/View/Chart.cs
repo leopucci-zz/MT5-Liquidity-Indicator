@@ -120,6 +120,21 @@ namespace MT5LiquidityIndicator.Net.View
 		{
 			m_spreads.Location = Point.Empty;
 		}
+		private void OnFroze(object sender, EventArgs e)
+		{
+			if (m_frozeContextMenuItem.Checked)
+			{
+				m_timer.Start();
+				m_proxy.Tick += OnTick;
+				m_frozeContextMenuItem.Checked = false;
+			}
+			else
+			{
+				m_timer.Stop();
+				m_proxy.Tick -= OnTick;
+				m_frozeContextMenuItem.Checked = true;
+			}
+		}
 		private void OnSaveAsCSV(object sender, EventArgs e)
 		{
 			DialogResult result = m_saveFileDialog.ShowDialog();
