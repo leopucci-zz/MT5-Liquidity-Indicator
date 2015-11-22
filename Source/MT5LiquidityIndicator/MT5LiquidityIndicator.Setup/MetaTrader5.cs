@@ -101,7 +101,22 @@ namespace MT5LiquidityIndicator.Setup
 
 		internal void Install()
 		{
-			Save(cLibrariesRelativePath, "MT5LiquidityIndicator.dll", Artifacts.MT5LiquidityIndicatorDllx64);
+			Save(cLibrariesRelativePath, "MT5LiquidityIndicator.x64.dll", Artifacts.MT5LiquidityIndicatorDllx64);
+			Save(cLibrariesRelativePath, "MT5LiquidityIndicator.x86.dll", Artifacts.MT5LiquidityIndicatorDllx86);
+
+			bool? value = IsX64;
+			if (value.HasValue)
+			{
+				if (value.Value)
+				{
+					Save(cLibrariesRelativePath, "MT5LiquidityIndicator.dll", Artifacts.MT5LiquidityIndicatorDllx64);
+				}
+				else
+				{
+					Save(cLibrariesRelativePath, "MT5LiquidityIndicator.dll", Artifacts.MT5LiquidityIndicatorDllx86);
+				}
+			}
+
 			Save(cLibrariesRelativePath, "MT5LiquidityIndicator.Net.dll", Artifacts.MT5LiquidityIndicatorNet);
 			Save(cIndicatorsRelativePath, "MT5LiquidityIndicator.mq5", Artifacts.MT5LiquidityIndicatorMql);
 			string path = Path.Combine(m_root, cIndicatorsRelativePath, "MT5LiquidityIndicator.ex5");
@@ -144,6 +159,24 @@ namespace MT5LiquidityIndicator.Setup
 				return m_root;
 			}
 		}
+		public bool? IsX64
+		{
+			get
+			{
+				string path64 = Path.Combine(m_name, cTerminal64);
+				string path86 = Path.Combine(m_name, cTerminal86);
+				if (File.Exists(path64))
+				{
+					return true;
+				}
+				if (File.Exists(path86))
+				{
+					return false;
+				}
+				return null;
+			}
+		}
+
 		[DisplayName("Indicators directory")]
 		public string IndicatorDir
 		{
@@ -183,6 +216,8 @@ namespace MT5LiquidityIndicator.Setup
 		private const string cLibrariesRelativePath = @"MQL5\Libraries";
 		private const string cTerminalRelativePath = @"MetaQuotes\Terminal";
 		private const string cOriginFileName = "origin.txt";
+		private const string cTerminal64 = "terminal64.exe";
+		private const string cTerminal86 = "terminal.exe";
 		#endregion
 		#region patterns
 		private static readonly Regex m_pattern = new Regex(@"^[\da-fA-F]{32}$");

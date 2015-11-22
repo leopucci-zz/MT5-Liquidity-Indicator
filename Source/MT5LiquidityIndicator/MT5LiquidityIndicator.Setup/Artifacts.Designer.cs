@@ -73,6 +73,16 @@ namespace MT5LiquidityIndicator.Setup {
         /// <summary>
         ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
+        internal static byte[] MT5LiquidityIndicatorDllx86 {
+            get {
+                object obj = ResourceManager.GetObject("MT5LiquidityIndicatorDllx86", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
         internal static byte[] MT5LiquidityIndicatorMql {
             get {
                 object obj = ResourceManager.GetObject("MT5LiquidityIndicatorMql", resourceCulture);
