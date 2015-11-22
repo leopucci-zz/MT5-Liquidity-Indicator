@@ -64,8 +64,8 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Artifacts.resx">
       <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Artifacts.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
+      <LastGenOutput>Artifacts.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>

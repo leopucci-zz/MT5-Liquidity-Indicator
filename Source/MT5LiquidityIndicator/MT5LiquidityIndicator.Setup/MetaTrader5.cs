@@ -101,7 +101,7 @@ namespace MT5LiquidityIndicator.Setup
 
 		internal void Install()
 		{
-			Save(cLibrariesRelativePath, "MT5LiquidityIndicator.dll", Artifacts.MT5LiquidityIndicatorDll);
+			Save(cLibrariesRelativePath, "MT5LiquidityIndicator.dll", Artifacts.MT5LiquidityIndicatorDllx64);
 			Save(cLibrariesRelativePath, "MT5LiquidityIndicator.Net.dll", Artifacts.MT5LiquidityIndicatorNet);
 			Save(cIndicatorsRelativePath, "MT5LiquidityIndicator.mq5", Artifacts.MT5LiquidityIndicatorMql);
 			string path = Path.Combine(m_root, cIndicatorsRelativePath, "MT5LiquidityIndicator.ex5");
