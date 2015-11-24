@@ -236,8 +236,9 @@ extern "C"
 		CStream() << "MT5LIStop()" >> DebugLog;
 	}
 
-	void Level2_Begin(CChart* pChart)
+	void Level2_Begin(uint64_t handle)
 	{
+		CChart* pChart = (CChart*)handle;
 		if (nullptr != pChart)
 		{
 			Level2Queue& queue = pChart->GetLevel2Queue();
@@ -245,8 +246,9 @@ extern "C"
 		}
 	}
 
-	void Level2_End(CChart* pChart)
+	void Level2_End(uint64_t handle)
 	{
+		CChart* pChart = (CChart*)handle;
 		if (nullptr != pChart)
 		{
 			Level2Queue& queue = pChart->GetLevel2Queue();
@@ -254,8 +256,9 @@ extern "C"
 		}
 	}
 
-	void Level2_AddBid(CChart* pChart, double price, double size)
+	void Level2_AddBid(uint64_t handle, double price, double size)
 	{
+		CChart* pChart = (CChart*)handle;
 		if (nullptr != pChart)
 		{
 			Level2Queue& queue = pChart->GetLevel2Queue();
@@ -263,8 +266,9 @@ extern "C"
 		}
 	}
 
-	void Level2_AddAsk(CChart* pChart, double price, double size)
+	void Level2_AddAsk(uint64_t handle, double price, double size)
 	{
+		CChart* pChart = (CChart*)handle;
 		if(nullptr != pChart)
 		{
 			Level2Queue& queue = pChart->GetLevel2Queue();

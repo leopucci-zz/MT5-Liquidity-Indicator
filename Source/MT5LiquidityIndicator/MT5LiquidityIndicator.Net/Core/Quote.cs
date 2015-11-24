@@ -51,5 +51,14 @@ namespace MT5LiquidityIndicator.Net.Core
 				return Asks[0].Price;
 			}
 		}
+
+		public override string ToString()
+		{
+			StringBuilder builder = new StringBuilder();
+			builder.AppendFormat("Bid = {0}, Ask = {1}", this.Bid, this.Ask);
+
+			string result = builder.ToString();
+			return result;
+		}
 	}
 }
