@@ -202,7 +202,7 @@ void CChart::UpdateHeight()
 
 extern "C"
 {
-	CChart* MT5LIStart(HWND handle, const wchar_t* pSymbol, int period, int digits, double lotSize)
+	uint64_t MT5LIStart(HWND handle, const wchar_t* pSymbol, int period, int digits, double lotSize)
 	{
 		CCsLocker lock(gSynchronizer);
 
@@ -213,12 +213,12 @@ extern "C"
 			string symbol = CW2A(pSymbol);
 			CChart& chart = gCharts[handle];
 			chart.Construct(handle, symbol, period, digits, lotSize);
-			return &chart;
+			return (uint64_t)&chart;
 		}
 
 		CStream() << "gCharts.count(handle) = " << gCharts.count(handle) >> DebugLog;
 
-		return nullptr;
+		return 0;
 	}
 
 	void MT5LIStop(HWND handle)

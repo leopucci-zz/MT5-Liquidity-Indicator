@@ -14,7 +14,7 @@ class CChart;
 
 extern "C"
 {
-	CChart* MT5LIStart(HWND handle, const wchar_t* pSymbol, int period, int digits, double lotSize);
+	uint64_t MT5LIStart(HWND handle, const wchar_t* pSymbol, int period, int digits, double lotSize);
 	void MT5LIStop(HWND handle);
 
 	void Level2_Begin(uint64_t handle);
