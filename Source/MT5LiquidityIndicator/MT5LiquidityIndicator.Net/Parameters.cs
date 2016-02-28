@@ -17,6 +17,7 @@ namespace MT5LiquidityIndicator.Net
 			this.Symbol = args[cSymbol];
 			this.Digits = int.Parse(args[cDigits], CultureInfo.InvariantCulture);
 			this.LotSize = double.Parse(args[cLotSize], CultureInfo.InvariantCulture);
+			this.LotSize = 1; // it seems that we have sizes in lots.
 			this.PricePip = Math.Pow(10, -Digits);
 			this.PriceFactor = Math.Pow(10, Digits);
 			this.RoundingStepOfPrice = 5 * this.PricePip;
